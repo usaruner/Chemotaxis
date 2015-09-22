@@ -1,25 +1,28 @@
 Bacteria [] colony ;
  void setup()   
  {     
+     
   size(500,500); 
  colony = new Bacteria[200];
  for(int i = 1;i < colony.length ;i +=1){
-   
+ 
 colony[i] = new Bacteria(250,250,0,0,0);
  }
  }   
  void draw()   
  {  
-   background(255);
-
+   background(0);
+    food apple = new food(mouseX,mouseY);
+   apple.make();
 
   for(int a = 1;a < colony.length ;a +=1){
   
   colony[a].move();
   colony[a].create();
+  colony[a].follow();
  }   
-  food apple = new food(250,50);
-   apple.make();
+ 
+  
 
  }  
  class Bacteria    
@@ -41,33 +44,38 @@ colony[i] = new Bacteria(250,250,0,0,0);
    }
    void create(){
      fill(c1);
+     noStroke();
      ellipse(x1, y1, s, s);
-     if( x1 == mouseX && y1 == mouseY){
-     s = s+10;
      
-     } 
 
    }
    
    void move(){
-     r1 = (int)(Math.random()*3) - 1 ;
-     r2 = (int)(Math.random()*3) - 1 ;
+     r1 = (int)(Math.random()*9) - 4 ;
+     r2 = (int)(Math.random()*9) - 4 ;
      x1 += r1 + bi;
      y1 += r2 + hi;
+     
+     if (get((int)x1,(int)y1) == color(255,0,0)){
+       
+     s = s+10;
+     
+     }
       
      
   
   }
   void follow(){
      if(x1 < mouseX){
-      bi = .2;
+      bi = .75;
       }else if (x1 > mouseX){
-      bi = -.2;}
+      bi = -.75;
+  }
       
       if(y1 < mouseY){
-      hi = .2;
+      hi = .75;
       }else if (y1 > mouseY){
-      hi = -.2;
+      hi = -.75;
   }
      
    }
@@ -77,16 +85,18 @@ colony[i] = new Bacteria(250,250,0,0,0);
  class food
  {
    
-   int fx1 , xy2;
+   int fx1 , fy1;
    food(int fx,int fy)
    {
      fx1 = fx;
-     fx1 = fy;
+     fy1 = fy;
      
      
    }
-   void make() {
-    rect(fx1,fx1,75,75);
+   void make(){ 
+    noStroke();
+    fill(255,0,0);
+    rect(fx1,fy1,15,15);
      
      
    }
